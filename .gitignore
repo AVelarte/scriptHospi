@@ -1,0 +1,14 @@
+#ignore Matlab autosave files
+*.m~
+*.asv
+
+#ignore .pyc files
+*.pyc
+
+#ignore .DS_Store (mac)
+.DS_Store
+
+ephys2plx
+lowFreqCorrection
+Python3
+*.py
