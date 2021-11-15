@@ -64,7 +64,7 @@ findpeaks(datos, tiempos, 'MinPeakProminence', 0.03, 'MinPeakDistance',0.5)
 [picos,loc_peak]= findpeaks(datos, tiempos, 'MinPeakProminence', 0.03, 'MinPeakDistance',0.5);
 %% Recorte de señal medida
 global PrimerPico
-PrimerPico = 3;
+PrimerPico = 1;
 
 [datos_rec, tiempos_rec] = recortarDatos(datos, loc_peak(PrimerPico), loc_peak(end), tiempos);
 fig = figure('Name',"Original Recortada");
@@ -77,12 +77,12 @@ xlim([tiempos_rec(1),tiempos_rec(end)])
 % Dibujar las formas de onda "stack" separando pulso positivo y negativo
 if bipolar
     [datos_stack_Impar_exc, datos_stack_Par_exc] = stacking(datos_rec, tiempos_rec, loc_peak, true);
-    figure;
+    figure('Name',"Stack Impar Señal");
     for i=1:size(datos_stack_Impar_exc,1)
         hold on;
         plot(datos_stack_Impar_exc(i,:))
     end
-    figure;
+    figure('Name',"Stack Par Señal");
     for i=1:size(datos_stack_Par_exc,1)
         hold on;
         plot(datos_stack_Par_exc(i,:))
@@ -90,7 +90,7 @@ if bipolar
 else
 % Dibujar las formas de onda "stack"
     datos_stack_exc = stacking(datos_rec, tiempos_rec, loc_peak, false);
-    figure;
+    figure('Name',"Stack Señal");
     for i=1:size(datos_stack_exc,1)
         hold on;
         plot(datos_stack_exc(i,:))
