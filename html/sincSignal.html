@@ -1,0 +1,687 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>sincSignal</title><meta name="generator" content="MATLAB 9.9"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-11-17"><meta name="DC.source" content="sincSignal.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Graficar se&ntilde;al medida</a></li><li><a href="#3">Graficar espectro de la se&ntilde;al medida</a></li><li><a href="#4">FILTRO NOTCH para se&ntilde;al medida</a></li><li><a href="#5">Graficar espectro de la se&ntilde;al medida tras filtro notch</a></li><li><a href="#6">Sacar picos de se&ntilde;al medida, para sincronizar</a></li><li><a href="#7">Recorte de se&ntilde;al medida (en caso de que al inicio haya regimen transitorio)</a></li><li><a href="#8">Stacking de la se&ntilde;al medida</a></li><li><a href="#9">Graficar se&ntilde;al trigger</a></li><li><a href="#10">Graficar espectro de la se&ntilde;al medida</a></li><li><a href="#11">FILTRO NOTCH para se&ntilde;al trigger</a></li><li><a href="#12">Graficar espectro de la se&ntilde;al medida tras filtro notch</a></li><li><a href="#13">Sacar picos de se&ntilde;al trigger</a></li><li><a href="#14">Recorte del trigger</a></li><li><a href="#15">Stacking del trigger</a></li><li><a href="#16">Stacking de la se&ntilde;al medida</a></li><li><a href="#17">C&aacute;lculo de la media de la se&ntilde;al</a></li><li><a href="#18">Graficar excitaci&oacute;n</a></li><li><a href="#19">Graficar espectro de la excitaci&oacute;n</a></li><li><a href="#20">FILTRO NOTCH para la excitaci&oacute;n</a></li><li><a href="#21">Graficar espectro de la excitaci&oacute;n tras filtro notch</a></li><li><a href="#22">Graficar se&ntilde;al trigger excitaci&oacute;n</a></li><li><a href="#23">Graficar espectro de la se&ntilde;al trigger excitaci&oacute;n</a></li><li><a href="#24">FILTRO NOTCH para se&ntilde;al trigger excitaci&oacute;n</a></li><li><a href="#25">Graficar espectro de la se&ntilde;al medida tras filtro notch</a></li><li><a href="#26">Sacar picos de se&ntilde;al trigger excitaci&oacute;n</a></li><li><a href="#27">Recorte del trigger</a></li><li><a href="#28">Stacking del trigger</a></li><li><a href="#29">Recorte de la se&ntilde;al de excitaci&oacute;n</a></li><li><a href="#30">Stacking de la excitaci&oacute;n</a></li><li><a href="#31">C&aacute;lculo de la media de la excitaci&oacute;n</a></li><li><a href="#32">Restar la excitaci&oacute;n de las se&ntilde;ales</a></li></ul></div><pre class="codeinput">clc,clear; close <span class="string">all</span>;
+disp(<span class="string">"Empieza"</span>);
+<span class="keyword">global</span> D
+bipolar = false;
+<span class="comment">% ruta_ini = uigetdir('C:\Users\Antonio\Desktop\DOCTORADO\08_PrimerCurso\Hospital');</span>
+ruta_ini = <span class="string">"C:\Users\Antonio\Desktop\DOCTORADO\08_PrimerCurso\Hospital\2021_11\2021-11-11_20-02-02_07"</span>;
+<span class="keyword">try</span>
+    ruta = ruta_ini +<span class="string">"\Record Node 102\experiment1\recording1\structure.oebin"</span>;
+    D = load_open_ephys_binary(ruta,<span class="string">'continuous'</span>,1);
+<span class="keyword">catch</span>
+    ruta = ruta_ini +<span class="string">"\Record Node 103\experiment1\recording1\structure.oebin"</span>;
+    D = load_open_ephys_binary(ruta,<span class="string">'continuous'</span>,1);
+<span class="keyword">end</span>
+<span class="comment">% ruta_ini_exc = uigetdir('C:\Users\Antonio\Desktop\DOCTORADO\08_PrimerCurso\Hospital');</span>
+ruta_ini_exc = <span class="string">"C:\Users\Antonio\Desktop\DOCTORADO\08_PrimerCurso\Hospital\2021_11\2021-11-11_20-25-02_12"</span>;
+<span class="keyword">try</span>
+    ruta_exec = ruta_ini_exc +<span class="string">"\Record Node 102\experiment1\recording1\structure.oebin"</span>;
+    D_exc = load_open_ephys_binary(ruta_exec,<span class="string">'continuous'</span>,1);
+<span class="keyword">catch</span>
+    ruta_exec = ruta_ini_exc +<span class="string">"\Record Node 103\experiment1\recording1\structure.oebin"</span>;
+    D_exc = load_open_ephys_binary(ruta_exec,<span class="string">'continuous'</span>,1);
+<span class="keyword">end</span>
+longitud_tiempo = size(D.Timestamps);
+tiempos = 0:1/D.Header.sample_rate:(longitud_tiempo(1)-1)*1/D.Header.sample_rate;
+longitud_tiempo_exc = size(D_exc.Timestamps);
+tiempos_exc = 0:1/D_exc.Header.sample_rate:(longitud_tiempo_exc(1)-1)*1/D_exc.Header.sample_rate;
+<span class="keyword">global</span> lista_canales
+lista_canales = [2,3,14,15,1,4,13,16,5,6,11,12,7,8,9,10];
+canal = 2;
+trigger = 32;
+datos = D.Data(lista_canales(canal),:);
+datos_trig = D.Data(32,:);
+datos_exc = D_exc.Data(lista_canales(canal),:);
+datos_trig_exc = D_exc.Data(32,:);
+datos = datos * 10^(-6);
+datos_trig = datos_trig * 10^(-6);
+datos_exc = datos_exc * 10^(-6);
+datos_trig_exc = datos_trig_exc * 10^(-6);
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+</pre><pre class="codeoutput">Empieza
+</pre><h2 id="2">Graficar se&ntilde;al medida</h2><pre class="codeinput">fig = figure(<span class="string">'Name'</span>,<span class="string">"Original"</span>);
+fig.WindowState = <span class="string">'maximized'</span> ;
+plot(tiempos, datos, <span class="string">'DisplayName'</span>,<span class="string">'Original'</span>)
+title(strcat(<span class="string">" Se&ntilde;al original del canal "</span>, num2str(lista_canales(canal))));
+xlabel(<span class="string">'Tiempo (s)'</span>)
+xlim([tiempos(1),tiempos(end)])
+</pre><img vspace="5" hspace="5" src="sincSignal_01.png" alt=""> <h2 id="3">Graficar espectro de la se&ntilde;al medida</h2><pre class="codeinput">fig_esp = figure(<span class="string">'Name'</span>,<span class="string">"Espectro"</span>);
+title(<span class="string">"Espectro frecuencial"</span>);
+fig_esp.WindowState = <span class="string">'maximized'</span> ;
+grafEspectro(datos, 1000, fig_esp, <span class="string">'Raw'</span>);
+</pre><img vspace="5" hspace="5" src="sincSignal_02.png" alt=""> <h2 id="4">FILTRO NOTCH para se&ntilde;al medida</h2><pre class="codeinput">datos_notch = filter50(datos, tiempos);
+figure(fig);
+hold <span class="string">on</span>;
+fig.WindowState = <span class="string">'maximized'</span> ;
+plot(tiempos, datos_notch, <span class="string">'DisplayName'</span>,<span class="string">'Notch'</span>);
+lgd =legend;
+lgd.FontSize = 14;
+</pre><img vspace="5" hspace="5" src="sincSignal_03.png" alt=""> <h2 id="5">Graficar espectro de la se&ntilde;al medida tras filtro notch</h2><pre class="codeinput">grafEspectro(datos_notch, 1000, fig_esp, <span class="string">'Notch'</span>);
+</pre><img vspace="5" hspace="5" src="sincSignal_04.png" alt=""> <h2 id="6">Sacar picos de se&ntilde;al medida, para sincronizar</h2><p>fig_peaks = figure('Name',"Peaks"); fig_peaks.WindowState = 'maximized' ; findpeaks(datos_notch, tiempos, 'MinPeakProminence', 0.03, 'MinPeakDistance',0.5) [picos,loc_peak]= findpeaks(datos_notch, tiempos, 'MinPeakProminence', 0.03, 'MinPeakDistance',0.5);</p><h2 id="7">Recorte de se&ntilde;al medida (en caso de que al inicio haya regimen transitorio)</h2><p>global PrimerPico PrimerPico = 3;</p><p>[datos_rec, tiempos_rec] = recortarDatos(datos_notch, loc_peak(PrimerPico), loc_peak(end), tiempos); fig = figure('Name',"Original Recortada"); fig.WindowState = 'maximized' ; plot(tiempos_rec, datos_rec) title(strcat("Se&ntilde;al recortada del canal ", num2str(lista_canales(canal)))); xlabel('Tiempo (s)') xlim([tiempos_rec(1),tiempos_rec(end)])</p><h2 id="8">Stacking de la se&ntilde;al medida</h2><p>Dibujar las formas de onda "stack" separando pulso positivo y negativo if bipolar     [datos_stack_Impar, datos_stack_Par] = stacking(datos_rec, tiempos_rec, loc_peak, true);     figure('Name',"Stack Impar Se&ntilde;al");     for i=1:size(datos_stack_Impar,1)         hold on;         plot(datos_stack_Impar(i,:))     end     figure('Name',"Stack Par Se&ntilde;al");     for i=1:size(datos_stack_Par,1)         hold on;         plot(datos_stack_Par(i,:))     end else % Dibujar las formas de onda "stack"     datos_stack = stacking(datos_rec, tiempos_rec, loc_peak, false);     figure('Name',"Stack Se&ntilde;al");     for i=1:size(datos_stack,1)         hold on;         plot(datos_stack(i,:))         legend;     end end %% C&aacute;lculo de la media de la se&ntilde;al media = mean(datos_stack_Impar); figure; plot(media)</p><pre class="codeinput"><span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+</pre><h2 id="9">Graficar se&ntilde;al trigger</h2><pre class="codeinput">fig = figure(<span class="string">'Name'</span>,<span class="string">"Trigger"</span>);
+fig.WindowState = <span class="string">'maximized'</span> ;
+plot(tiempos, datos_trig, <span class="string">'DisplayName'</span>,<span class="string">'Trigger'</span>)
+title(<span class="string">" Se&ntilde;al Trigger "</span>);
+xlabel(<span class="string">'Tiempo (s)'</span>)
+xlim([tiempos(1),tiempos(end)])
+</pre><img vspace="5" hspace="5" src="sincSignal_05.png" alt=""> <h2 id="10">Graficar espectro de la se&ntilde;al medida</h2><pre class="codeinput">fig_esp_trig = figure(<span class="string">'Name'</span>,<span class="string">"Espectro del trigger"</span>);
+title(<span class="string">"Espectro frecuencial trigger"</span>);
+fig_esp_trig.WindowState = <span class="string">'maximized'</span> ;
+grafEspectro(datos_trig, 1000, fig_esp_trig, <span class="string">'Raw'</span>);
+</pre><img vspace="5" hspace="5" src="sincSignal_06.png" alt=""> <h2 id="11">FILTRO NOTCH para se&ntilde;al trigger</h2><pre class="codeinput">datos_notch_trig = filter50(datos_trig, tiempos);
+figure(fig);
+hold <span class="string">on</span>;
+fig.WindowState = <span class="string">'maximized'</span> ;
+plot(tiempos, datos_notch_trig, <span class="string">'DisplayName'</span>,<span class="string">'Notch'</span>);
+lgd =legend;
+lgd.FontSize = 14;
+</pre><img vspace="5" hspace="5" src="sincSignal_07.png" alt=""> <h2 id="12">Graficar espectro de la se&ntilde;al medida tras filtro notch</h2><pre class="codeinput">grafEspectro(datos_notch_trig, 1000, fig_esp_trig, <span class="string">'Notch'</span>);
+</pre><img vspace="5" hspace="5" src="sincSignal_08.png" alt=""> <h2 id="13">Sacar picos de se&ntilde;al trigger</h2><pre class="codeinput">fig_peaks = figure(<span class="string">'Name'</span>,<span class="string">"Peaks Trigger"</span>);
+fig_peaks.WindowState = <span class="string">'maximized'</span> ;
+findpeaks(datos_notch_trig,  <span class="string">'MinPeakHeight'</span>, 0.005)
+[picos_trig,loc_peak_trig]= findpeaks(datos_notch_trig, tiempos,  <span class="string">'MinPeakHeight'</span>, 0.005);
+loc_peak_trig_ok = loc_peak_trig(1)
+picos_trig_ok = picos_trig(1)
+figure();
+plot(tiempos, datos_notch_trig)
+hold <span class="string">on</span>;
+<span class="keyword">for</span> i=1:size(loc_peak_trig,2)-1
+    <span class="keyword">if</span> (loc_peak_trig(i+1)-loc_peak_trig(i)) &gt; 0.5
+<span class="comment">%         loc_peak_trig_ok = [loc_peak_trig_ok, loc_peak_trig(i+1)];</span>
+        loc_peak_trig_ok = [loc_peak_trig_ok, loc_peak_trig(1)+size(loc_peak_trig_ok,2)];
+        picos_trig_ok = [picos_trig_ok, picos_trig(i+1)];
+        plot(loc_peak_trig(i+1), picos_trig(i+1), <span class="string">'o-'</span>);
+<span class="comment">%         xline(loc_peak_trig(i+1))</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">
+loc_peak_trig_ok =
+
+    0.0240
+
+
+picos_trig_ok =
+
+    0.0111
+
+</pre><img vspace="5" hspace="5" src="sincSignal_09.png" alt=""> <img vspace="5" hspace="5" src="sincSignal_10.png" alt=""> <h2 id="14">Recorte del trigger</h2><p>De momento no hace falta</p><h2 id="15">Stacking del trigger</h2><p>% Dibujar las formas de onda "stack" separando pulso positivo y negativo if bipolar     [datos_stack_Impar_trig, datos_stack_Par_trig] = stacking(datos_trig, tiempos, loc_peak, true);     figure('Name',"Stack Impar Se&ntilde;al");     for i=1:size(datos_stack_Impar_trig,1)         hold on;         plot(datos_stack_Impar_exc(i,:))     end     figure('Name',"Stack Par Se&ntilde;al");     for i=1:size(datos_stack_Par_trig,1)         hold on;         plot(datos_stack_Par_trig(i,:))     end else Dibujar las formas de onda "stack"</p><pre class="codeinput"><span class="keyword">global</span> PrimerPico
+PrimerPico = 1;
+    datos_stack_trig = stacking(datos_notch_trig, tiempos, loc_peak_trig_ok, false);
+    figure(<span class="string">'Name'</span>,<span class="string">"Stack Trigger"</span>);
+    <span class="keyword">for</span> i=1:size(datos_stack_trig,1)
+        hold <span class="string">on</span>;
+        plot(datos_stack_trig(i,:))
+        legend;
+    <span class="keyword">end</span>
+<span class="comment">% end</span>
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+</pre><img vspace="5" hspace="5" src="sincSignal_11.png" alt=""> <h2 id="16">Stacking de la se&ntilde;al medida</h2><p>Dibujar las formas de onda "stack" separando pulso positivo y negativo if bipolar     [datos_stack_Impar, datos_stack_Par] = stacking(datos_rec, tiempos_rec, loc_peak, true);     figure('Name',"Stack Impar Se&ntilde;al");     for i=1:size(datos_stack_Impar,1)         hold on;         plot(datos_stack_Impar(i,:))     end     figure('Name',"Stack Par Se&ntilde;al");     for i=1:size(datos_stack_Par,1)         hold on;         plot(datos_stack_Par(i,:))     end else Dibujar las formas de onda "stack"</p><pre class="codeinput">    datos_stack = stacking(datos_notch, tiempos, loc_peak_trig_ok, false);
+    figure(<span class="string">'Name'</span>,<span class="string">"Stack Se&ntilde;al"</span>);
+    <span class="keyword">for</span> i=1:size(datos_stack,1)
+        hold <span class="string">on</span>;
+        plot(datos_stack(i,:))
+        legend;
+    <span class="keyword">end</span>
+<span class="comment">% end</span>
+</pre><img vspace="5" hspace="5" src="sincSignal_12.png" alt=""> <h2 id="17">C&aacute;lculo de la media de la se&ntilde;al</h2><pre class="codeinput">media = mean(datos_stack);
+figure;
+plot(media)
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+</pre><img vspace="5" hspace="5" src="sincSignal_13.png" alt=""> <h2 id="18">Graficar excitaci&oacute;n</h2><pre class="codeinput">fig_exc = figure(<span class="string">'Name'</span>,<span class="string">"Excitaci&oacute;n"</span>);
+fig_exc.WindowState = <span class="string">'maximized'</span> ;
+plot(tiempos_exc, datos_exc)
+title(strcat(<span class="string">" Excitaci&oacute;n del canal "</span>, num2str(lista_canales(canal))));
+xlabel(<span class="string">'Tiempo (s)'</span>)
+xlim([tiempos_exc(1),tiempos_exc(end)])
+</pre><img vspace="5" hspace="5" src="sincSignal_14.png" alt=""> <h2 id="19">Graficar espectro de la excitaci&oacute;n</h2><pre class="codeinput">fig_esp_exc = figure(<span class="string">'Name'</span>,<span class="string">"Espectro de la excitaci&oacute;n"</span>);
+title(<span class="string">"Espectro frecuencial de la excitaci&oacute;n"</span>);
+fig_esp_exc.WindowState = <span class="string">'maximized'</span> ;
+grafEspectro(datos_exc, 1000, fig_esp_exc, <span class="string">'Raw'</span>);
+</pre><img vspace="5" hspace="5" src="sincSignal_15.png" alt=""> <h2 id="20">FILTRO NOTCH para la excitaci&oacute;n</h2><pre class="codeinput">datos_notch_exc = filter50(datos_exc, tiempos_exc);
+figure(fig_exc);
+hold <span class="string">on</span>;
+fig.WindowState = <span class="string">'maximized'</span> ;
+plot(tiempos_exc, datos_notch_exc, <span class="string">'DisplayName'</span>,<span class="string">'Notch'</span>);
+lgd =legend;
+lgd.FontSize = 14;
+<span class="comment">% datos_exc = datos_notch_exc;</span>
+</pre><img vspace="5" hspace="5" src="sincSignal_16.png" alt=""> <img vspace="5" hspace="5" src="sincSignal_17.png" alt=""> <h2 id="21">Graficar espectro de la excitaci&oacute;n tras filtro notch</h2><pre class="codeinput">grafEspectro(datos_notch_exc, 1000, fig_esp_exc, <span class="string">'Notch'</span>);
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+</pre><img vspace="5" hspace="5" src="sincSignal_18.png" alt=""> <h2 id="22">Graficar se&ntilde;al trigger excitaci&oacute;n</h2><pre class="codeinput">fig = figure(<span class="string">'Name'</span>,<span class="string">"Trigger Excitaci&oacute;n"</span>);
+fig.WindowState = <span class="string">'maximized'</span> ;
+plot(tiempos_exc, datos_trig_exc, <span class="string">'DisplayName'</span>,<span class="string">'Trigger Excitaci&oacute;n'</span>)
+title(<span class="string">" Se&ntilde;al Trigger "</span>);
+xlabel(<span class="string">'Tiempo (s)'</span>)
+xlim([tiempos_exc(1),tiempos_exc(end)])
+</pre><img vspace="5" hspace="5" src="sincSignal_19.png" alt=""> <h2 id="23">Graficar espectro de la se&ntilde;al trigger excitaci&oacute;n</h2><pre class="codeinput">fig_esp_trig_exc = figure(<span class="string">'Name'</span>,<span class="string">"Espectro del trigger Excitaci&oacute;n"</span>);
+title(<span class="string">"Espectro frecuencial trigger Excitaci&oacute;n"</span>);
+fig_esp_trig_exc.WindowState = <span class="string">'maximized'</span> ;
+grafEspectro(datos_trig_exc, 1000, fig_esp_trig_exc, <span class="string">'Raw'</span>);
+</pre><img vspace="5" hspace="5" src="sincSignal_20.png" alt=""> <h2 id="24">FILTRO NOTCH para se&ntilde;al trigger excitaci&oacute;n</h2><pre class="codeinput">datos_notch_trig_exc = filter50(datos_trig_exc, tiempos_exc);
+figure(fig);
+hold <span class="string">on</span>;
+fig.WindowState = <span class="string">'maximized'</span> ;
+plot(tiempos_exc, datos_notch_trig_exc, <span class="string">'DisplayName'</span>,<span class="string">'Notch'</span>);
+lgd =legend;
+lgd.FontSize = 14;
+</pre><img vspace="5" hspace="5" src="sincSignal_21.png" alt=""> <h2 id="25">Graficar espectro de la se&ntilde;al medida tras filtro notch</h2><pre class="codeinput">grafEspectro(datos_notch_trig_exc, 1000, fig_esp_trig_exc, <span class="string">'Notch'</span>);
+</pre><img vspace="5" hspace="5" src="sincSignal_22.png" alt=""> <h2 id="26">Sacar picos de se&ntilde;al trigger excitaci&oacute;n</h2><pre class="codeinput">fig_peaks = figure(<span class="string">'Name'</span>,<span class="string">"Peaks Trigger Excitaci&oacute;n"</span>);
+fig_peaks.WindowState = <span class="string">'maximized'</span> ;
+findpeaks(datos_notch_trig_exc,  <span class="string">'MinPeakHeight'</span>, 0.007)
+[picos_trig_exc,loc_peak_trig_exc]= findpeaks(datos_notch_trig_exc, tiempos_exc,  <span class="string">'MinPeakHeight'</span>, 0.007);
+primerTrigger = 2;
+primerTrigger = find(loc_peak_trig_exc&gt;(primerTrigger-1) &amp; loc_peak_trig_exc&lt;primerTrigger);
+primerTrigger = primerTrigger(1);
+loc_peak_trig_exc_ok = loc_peak_trig_exc(primerTrigger);
+picos_trig_exc_ok = picos_trig_exc(primerTrigger);
+figure();
+plot(tiempos_exc, datos_notch_trig_exc)
+hold <span class="string">on</span>;
+<span class="keyword">for</span> i=primerTrigger:size(loc_peak_trig_exc,2)-1
+    <span class="keyword">if</span> (loc_peak_trig_exc(i+1)-loc_peak_trig_exc(i)) &gt; 0.5
+<span class="comment">%         loc_peak_trig_exc_ok = [loc_peak_trig_exc_ok, loc_peak_trig_exc(i+1)];</span>
+        loc_peak_trig_exc_ok = [loc_peak_trig_exc_ok, loc_peak_trig_exc(primerTrigger)+size(loc_peak_trig_exc_ok,2)];
+        picos_trig_exc_ok = [picos_trig_exc_ok, picos_trig_exc(i+1)];
+        plot(loc_peak_trig_exc(i), picos_trig_exc(i), <span class="string">'o-'</span>);
+<span class="comment">%         xline(loc_peak_trig(i+1))</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="sincSignal_23.png" alt=""> <img vspace="5" hspace="5" src="sincSignal_24.png" alt=""> <h2 id="27">Recorte del trigger</h2><p>De momento no hace falta</p><h2 id="28">Stacking del trigger</h2><p>% Dibujar las formas de onda "stack" separando pulso positivo y negativo if bipolar     [datos_stack_Impar_trig, datos_stack_Par_trig] = stacking(datos_trig, tiempos, loc_peak, true);     figure('Name',"Stack Impar Se&ntilde;al");     for i=1:size(datos_stack_Impar_trig,1)         hold on;         plot(datos_stack_Impar_exc(i,:))     end     figure('Name',"Stack Par Se&ntilde;al");     for i=1:size(datos_stack_Par_trig,1)         hold on;         plot(datos_stack_Par_trig(i,:))     end else Dibujar las formas de onda "stack"</p><pre class="codeinput"><span class="keyword">global</span> PrimerPico
+PrimerPico = 1;
+    datos_stack_trig_exc = stacking(datos_notch_trig_exc, tiempos_exc, loc_peak_trig_exc_ok, false);
+    figure(<span class="string">'Name'</span>,<span class="string">"Stack Trigger Excitaci&oacute;n"</span>);
+    <span class="keyword">for</span> i=1:size(datos_stack_trig_exc,1)
+        hold <span class="string">on</span>;
+        plot(datos_stack_trig_exc(i,:))
+        legend;
+    <span class="keyword">end</span>
+<span class="comment">% end</span>
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+</pre><img vspace="5" hspace="5" src="sincSignal_25.png" alt=""> <h2 id="29">Recorte de la se&ntilde;al de excitaci&oacute;n</h2><p>[datos_rec_exc, tiempos_rec_exc] = recortarDatos(datos_exc, 5, 50, tiempos_exc); fig = figure('Name',"Excitaci&oacute;n Recortada"); fig.WindowState = 'maximized' ; plot(tiempos_rec_exc, datos_rec_exc) title(strcat("Se&ntilde;al de excitaci&oacute;n recortada del canal ", num2str(lista_canales(canal)))); xlabel('Tiempo (s)') xlim([tiempos_rec_exc(1),tiempos_rec_exc(end)]) %% Sacar picos en se&ntilde;al de excitaci&oacute;n (recortada) fig_peaks_exc = figure('Name',"Peaks Exc"); fig_peaks_exc.WindowState = 'maximized' ; findpeaks(datos_rec_exc, tiempos_rec_exc, 'MinPeakProminence', 0.03, 'MinPeakDistance',0.5) [picos_exc,loc_peak_exc]= findpeaks(datos_rec_exc, tiempos_rec_exc, 'MinPeakProminence', 0.03, 'MinPeakDistance',0.5);</p><h2 id="30">Stacking de la excitaci&oacute;n</h2><p>Dibujar las formas de onda "stack" separando pulso positivo y negativo if bipolar     [datos_stack_Impar_exc, datos_stack_Par_exc] = stacking(datos_rec_exc, tiempos_rec_exc, loc_peak_exc, true);     fig_stack_i = figure('Name',"Stack Impar Excitaci&oacute;n");     for i=1:size(datos_stack_Impar_exc,1)         hold on;         plot(datos_stack_Impar_exc(i,:))     end     fig_stack_p = figure('Name',"Stack Par Excitaci&oacute;n");     for i=1:size(datos_stack_Par_exc,1)         hold on;         plot(datos_stack_Par_exc(i,:))     end else Dibujar las formas de onda "stack"</p><pre class="codeinput">    datos_stack_exc = stacking(datos_notch_exc, tiempos_exc, loc_peak_trig_exc_ok, false);
+    fig_stack_exc = figure(<span class="string">'Name'</span>,<span class="string">"Stack Excitaci&oacute;n"</span>);
+    <span class="keyword">for</span> i=1:size(datos_stack_exc,1)
+        hold <span class="string">on</span>;
+        plot(datos_stack_exc(i,:))
+        legend;
+    <span class="keyword">end</span>
+<span class="comment">% end</span>
+</pre><img vspace="5" hspace="5" src="sincSignal_26.png" alt=""> <h2 id="31">C&aacute;lculo de la media de la excitaci&oacute;n</h2><pre class="codeinput">avg_signal_exc = mean(datos_stack_exc);
+figure(fig_stack_exc);
+plot(avg_signal_exc, <span class="string">'LineWidth'</span>,3,<span class="string">'DisplayName'</span>,<span class="string">"Media"</span>);
+std_pos_exc = avg_signal_exc + std(datos_stack_exc);
+plot(std_pos_exc, <span class="string">'LineWidth'</span>,3,<span class="string">'DisplayName'</span>,<span class="string">"Std Pos"</span>);
+std_neg_exc = avg_signal_exc - std(datos_stack_exc);
+plot(std_neg_exc, <span class="string">'LineWidth'</span>,3,<span class="string">'DisplayName'</span>,<span class="string">"Std Neg"</span>);
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+</pre><img vspace="5" hspace="5" src="sincSignal_27.png" alt=""> <h2 id="32">Restar la excitaci&oacute;n de las se&ntilde;ales</h2><pre class="codeinput">avg_signal = mean(datos_stack);
+resta = avg_signal - avg_signal_exc;
+figure;
+tiempos_resta = 0:1/D.Header.sample_rate:(size(resta,2)-1)*1/D.Header.sample_rate;
+plot(tiempos_resta, resta);
+fig_Resta = figure();
+<span class="comment">% grafEspectro(resta, 1000, fig_Resta, 'Espectro de la resta');</span>
+</pre><img vspace="5" hspace="5" src="sincSignal_28.png" alt=""> <img vspace="5" hspace="5" src="sincSignal_29.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+clc,clear; close all;
+disp("Empieza");
+global D
+bipolar = false;
+% ruta_ini = uigetdir('C:\Users\Antonio\Desktop\DOCTORADO\08_PrimerCurso\Hospital');
+ruta_ini = "C:\Users\Antonio\Desktop\DOCTORADO\08_PrimerCurso\Hospital\2021_11\2021-11-11_20-02-02_07";
+try 
+    ruta = ruta_ini +"\Record Node 102\experiment1\recording1\structure.oebin";
+    D = load_open_ephys_binary(ruta,'continuous',1);
+catch
+    ruta = ruta_ini +"\Record Node 103\experiment1\recording1\structure.oebin";
+    D = load_open_ephys_binary(ruta,'continuous',1);
+end
+% ruta_ini_exc = uigetdir('C:\Users\Antonio\Desktop\DOCTORADO\08_PrimerCurso\Hospital');
+ruta_ini_exc = "C:\Users\Antonio\Desktop\DOCTORADO\08_PrimerCurso\Hospital\2021_11\2021-11-11_20-25-02_12";
+try 
+    ruta_exec = ruta_ini_exc +"\Record Node 102\experiment1\recording1\structure.oebin";
+    D_exc = load_open_ephys_binary(ruta_exec,'continuous',1);
+catch
+    ruta_exec = ruta_ini_exc +"\Record Node 103\experiment1\recording1\structure.oebin";
+    D_exc = load_open_ephys_binary(ruta_exec,'continuous',1);
+end
+longitud_tiempo = size(D.Timestamps);
+tiempos = 0:1/D.Header.sample_rate:(longitud_tiempo(1)-1)*1/D.Header.sample_rate;
+longitud_tiempo_exc = size(D_exc.Timestamps);
+tiempos_exc = 0:1/D_exc.Header.sample_rate:(longitud_tiempo_exc(1)-1)*1/D_exc.Header.sample_rate;
+global lista_canales
+lista_canales = [2,3,14,15,1,4,13,16,5,6,11,12,7,8,9,10];
+canal = 2;
+trigger = 32;
+datos = D.Data(lista_canales(canal),:);
+datos_trig = D.Data(32,:);
+datos_exc = D_exc.Data(lista_canales(canal),:);
+datos_trig_exc = D_exc.Data(32,:);
+datos = datos * 10^(-6);
+datos_trig = datos_trig * 10^(-6);
+datos_exc = datos_exc * 10^(-6);
+datos_trig_exc = datos_trig_exc * 10^(-6);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Graficar señal medida
+fig = figure('Name',"Original");
+fig.WindowState = 'maximized' ;
+plot(tiempos, datos, 'DisplayName','Original')
+title(strcat(" Señal original del canal ", num2str(lista_canales(canal))));
+xlabel('Tiempo (s)')
+xlim([tiempos(1),tiempos(end)])
+%% Graficar espectro de la señal medida
+fig_esp = figure('Name',"Espectro");
+title("Espectro frecuencial");
+fig_esp.WindowState = 'maximized' ;
+grafEspectro(datos, 1000, fig_esp, 'Raw');
+%% FILTRO NOTCH para señal medida
+datos_notch = filter50(datos, tiempos);
+figure(fig);
+hold on;
+fig.WindowState = 'maximized' ;
+plot(tiempos, datos_notch, 'DisplayName','Notch');
+lgd =legend;
+lgd.FontSize = 14;
+%% Graficar espectro de la señal medida tras filtro notch
+grafEspectro(datos_notch, 1000, fig_esp, 'Notch');
+%% Sacar picos de señal medida, para sincronizar
+% fig_peaks = figure('Name',"Peaks");
+% fig_peaks.WindowState = 'maximized' ;
+% findpeaks(datos_notch, tiempos, 'MinPeakProminence', 0.03, 'MinPeakDistance',0.5)
+% [picos,loc_peak]= findpeaks(datos_notch, tiempos, 'MinPeakProminence', 0.03, 'MinPeakDistance',0.5);
+%% Recorte de señal medida (en caso de que al inicio haya regimen transitorio)
+% global PrimerPico
+% PrimerPico = 3;
+% 
+% [datos_rec, tiempos_rec] = recortarDatos(datos_notch, loc_peak(PrimerPico), loc_peak(end), tiempos);
+% fig = figure('Name',"Original Recortada");
+% fig.WindowState = 'maximized' ;
+% plot(tiempos_rec, datos_rec)
+% title(strcat("Señal recortada del canal ", num2str(lista_canales(canal))));
+% xlabel('Tiempo (s)')
+% xlim([tiempos_rec(1),tiempos_rec(end)])
+%% Stacking de la señal medida
+% Dibujar las formas de onda "stack" separando pulso positivo y negativo
+% if bipolar
+%     [datos_stack_Impar, datos_stack_Par] = stacking(datos_rec, tiempos_rec, loc_peak, true);
+%     figure('Name',"Stack Impar Señal");
+%     for i=1:size(datos_stack_Impar,1)
+%         hold on;
+%         plot(datos_stack_Impar(i,:))
+%     end
+%     figure('Name',"Stack Par Señal");
+%     for i=1:size(datos_stack_Par,1)
+%         hold on;
+%         plot(datos_stack_Par(i,:))
+%     end
+% else
+% % Dibujar las formas de onda "stack"
+%     datos_stack = stacking(datos_rec, tiempos_rec, loc_peak, false);
+%     figure('Name',"Stack Señal");
+%     for i=1:size(datos_stack,1)
+%         hold on;
+%         plot(datos_stack(i,:))
+%         legend;
+%     end    
+% end
+% %% Cálculo de la media de la señal
+% media = mean(datos_stack_Impar);
+% figure;
+% plot(media)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Graficar señal trigger
+fig = figure('Name',"Trigger");
+fig.WindowState = 'maximized' ;
+plot(tiempos, datos_trig, 'DisplayName','Trigger')
+title(" Señal Trigger ");
+xlabel('Tiempo (s)')
+xlim([tiempos(1),tiempos(end)])
+%% Graficar espectro de la señal medida
+fig_esp_trig = figure('Name',"Espectro del trigger");
+title("Espectro frecuencial trigger");
+fig_esp_trig.WindowState = 'maximized' ;
+grafEspectro(datos_trig, 1000, fig_esp_trig, 'Raw');
+%% FILTRO NOTCH para señal trigger
+datos_notch_trig = filter50(datos_trig, tiempos);
+figure(fig);
+hold on;
+fig.WindowState = 'maximized' ;
+plot(tiempos, datos_notch_trig, 'DisplayName','Notch');
+lgd =legend;
+lgd.FontSize = 14;
+%% Graficar espectro de la señal medida tras filtro notch
+grafEspectro(datos_notch_trig, 1000, fig_esp_trig, 'Notch');
+%% Sacar picos de señal trigger
+fig_peaks = figure('Name',"Peaks Trigger");
+fig_peaks.WindowState = 'maximized' ;
+findpeaks(datos_notch_trig,  'MinPeakHeight', 0.005)
+[picos_trig,loc_peak_trig]= findpeaks(datos_notch_trig, tiempos,  'MinPeakHeight', 0.005);
+loc_peak_trig_ok = loc_peak_trig(1)
+picos_trig_ok = picos_trig(1)
+figure();
+plot(tiempos, datos_notch_trig)
+hold on;
+for i=1:size(loc_peak_trig,2)-1
+    if (loc_peak_trig(i+1)-loc_peak_trig(i)) > 0.5
+%         loc_peak_trig_ok = [loc_peak_trig_ok, loc_peak_trig(i+1)];
+        loc_peak_trig_ok = [loc_peak_trig_ok, loc_peak_trig(1)+size(loc_peak_trig_ok,2)];
+        picos_trig_ok = [picos_trig_ok, picos_trig(i+1)];
+        plot(loc_peak_trig(i+1), picos_trig(i+1), 'o-'); 
+%         xline(loc_peak_trig(i+1))
+    end
+end
+
+%% Recorte del trigger
+% De momento no hace falta
+%% Stacking del trigger
+% % Dibujar las formas de onda "stack" separando pulso positivo y negativo
+% if bipolar
+%     [datos_stack_Impar_trig, datos_stack_Par_trig] = stacking(datos_trig, tiempos, loc_peak, true);
+%     figure('Name',"Stack Impar Señal");
+%     for i=1:size(datos_stack_Impar_trig,1)
+%         hold on;
+%         plot(datos_stack_Impar_exc(i,:))
+%     end
+%     figure('Name',"Stack Par Señal");
+%     for i=1:size(datos_stack_Par_trig,1)
+%         hold on;
+%         plot(datos_stack_Par_trig(i,:))
+%     end
+% else
+% Dibujar las formas de onda "stack"
+global PrimerPico
+PrimerPico = 1;
+    datos_stack_trig = stacking(datos_notch_trig, tiempos, loc_peak_trig_ok, false);
+    figure('Name',"Stack Trigger");
+    for i=1:size(datos_stack_trig,1)
+        hold on;
+        plot(datos_stack_trig(i,:))
+        legend;
+    end    
+% end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Stacking de la señal medida
+% Dibujar las formas de onda "stack" separando pulso positivo y negativo
+% if bipolar
+%     [datos_stack_Impar, datos_stack_Par] = stacking(datos_rec, tiempos_rec, loc_peak, true);
+%     figure('Name',"Stack Impar Señal");
+%     for i=1:size(datos_stack_Impar,1)
+%         hold on;
+%         plot(datos_stack_Impar(i,:))
+%     end
+%     figure('Name',"Stack Par Señal");
+%     for i=1:size(datos_stack_Par,1)
+%         hold on;
+%         plot(datos_stack_Par(i,:))
+%     end
+% else
+% Dibujar las formas de onda "stack"
+    datos_stack = stacking(datos_notch, tiempos, loc_peak_trig_ok, false);
+    figure('Name',"Stack Señal");
+    for i=1:size(datos_stack,1)
+        hold on;
+        plot(datos_stack(i,:))
+        legend;
+    end    
+% end
+%% Cálculo de la media de la señal
+media = mean(datos_stack);
+figure;
+plot(media)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Graficar excitación
+fig_exc = figure('Name',"Excitación");
+fig_exc.WindowState = 'maximized' ;
+plot(tiempos_exc, datos_exc)
+title(strcat(" Excitación del canal ", num2str(lista_canales(canal))));
+xlabel('Tiempo (s)')
+xlim([tiempos_exc(1),tiempos_exc(end)])
+%% Graficar espectro de la excitación
+fig_esp_exc = figure('Name',"Espectro de la excitación");
+title("Espectro frecuencial de la excitación");
+fig_esp_exc.WindowState = 'maximized' ;
+grafEspectro(datos_exc, 1000, fig_esp_exc, 'Raw');
+%% FILTRO NOTCH para la excitación
+datos_notch_exc = filter50(datos_exc, tiempos_exc);
+figure(fig_exc);
+hold on;
+fig.WindowState = 'maximized' ;
+plot(tiempos_exc, datos_notch_exc, 'DisplayName','Notch');
+lgd =legend;
+lgd.FontSize = 14;
+% datos_exc = datos_notch_exc;
+%% Graficar espectro de la excitación tras filtro notch
+grafEspectro(datos_notch_exc, 1000, fig_esp_exc, 'Notch');
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Graficar señal trigger excitación
+fig = figure('Name',"Trigger Excitación");
+fig.WindowState = 'maximized' ;
+plot(tiempos_exc, datos_trig_exc, 'DisplayName','Trigger Excitación')
+title(" Señal Trigger ");
+xlabel('Tiempo (s)')
+xlim([tiempos_exc(1),tiempos_exc(end)])
+%% Graficar espectro de la señal trigger excitación
+fig_esp_trig_exc = figure('Name',"Espectro del trigger Excitación");
+title("Espectro frecuencial trigger Excitación");
+fig_esp_trig_exc.WindowState = 'maximized' ;
+grafEspectro(datos_trig_exc, 1000, fig_esp_trig_exc, 'Raw');
+%% FILTRO NOTCH para señal trigger excitación
+datos_notch_trig_exc = filter50(datos_trig_exc, tiempos_exc);
+figure(fig);
+hold on;
+fig.WindowState = 'maximized' ;
+plot(tiempos_exc, datos_notch_trig_exc, 'DisplayName','Notch');
+lgd =legend;
+lgd.FontSize = 14;
+%% Graficar espectro de la señal medida tras filtro notch
+grafEspectro(datos_notch_trig_exc, 1000, fig_esp_trig_exc, 'Notch');
+%% Sacar picos de señal trigger excitación
+fig_peaks = figure('Name',"Peaks Trigger Excitación");
+fig_peaks.WindowState = 'maximized' ; 
+findpeaks(datos_notch_trig_exc,  'MinPeakHeight', 0.007)
+[picos_trig_exc,loc_peak_trig_exc]= findpeaks(datos_notch_trig_exc, tiempos_exc,  'MinPeakHeight', 0.007);
+primerTrigger = 2;
+primerTrigger = find(loc_peak_trig_exc>(primerTrigger-1) & loc_peak_trig_exc<primerTrigger);
+primerTrigger = primerTrigger(1);
+loc_peak_trig_exc_ok = loc_peak_trig_exc(primerTrigger);
+picos_trig_exc_ok = picos_trig_exc(primerTrigger);
+figure();
+plot(tiempos_exc, datos_notch_trig_exc)
+hold on;
+for i=primerTrigger:size(loc_peak_trig_exc,2)-1
+    if (loc_peak_trig_exc(i+1)-loc_peak_trig_exc(i)) > 0.5
+%         loc_peak_trig_exc_ok = [loc_peak_trig_exc_ok, loc_peak_trig_exc(i+1)];
+        loc_peak_trig_exc_ok = [loc_peak_trig_exc_ok, loc_peak_trig_exc(primerTrigger)+size(loc_peak_trig_exc_ok,2)];
+        picos_trig_exc_ok = [picos_trig_exc_ok, picos_trig_exc(i+1)];
+        plot(loc_peak_trig_exc(i), picos_trig_exc(i), 'o-'); 
+%         xline(loc_peak_trig(i+1))
+    end
+end
+
+%% Recorte del trigger
+% De momento no hace falta
+%% Stacking del trigger
+% % Dibujar las formas de onda "stack" separando pulso positivo y negativo
+% if bipolar
+%     [datos_stack_Impar_trig, datos_stack_Par_trig] = stacking(datos_trig, tiempos, loc_peak, true);
+%     figure('Name',"Stack Impar Señal");
+%     for i=1:size(datos_stack_Impar_trig,1)
+%         hold on;
+%         plot(datos_stack_Impar_exc(i,:))
+%     end
+%     figure('Name',"Stack Par Señal");
+%     for i=1:size(datos_stack_Par_trig,1)
+%         hold on;
+%         plot(datos_stack_Par_trig(i,:))
+%     end
+% else
+% Dibujar las formas de onda "stack"
+global PrimerPico
+PrimerPico = 1;
+    datos_stack_trig_exc = stacking(datos_notch_trig_exc, tiempos_exc, loc_peak_trig_exc_ok, false);
+    figure('Name',"Stack Trigger Excitación");
+    for i=1:size(datos_stack_trig_exc,1)
+        hold on;
+        plot(datos_stack_trig_exc(i,:))
+        legend;
+    end    
+% end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Recorte de la señal de excitación
+% [datos_rec_exc, tiempos_rec_exc] = recortarDatos(datos_exc, 5, 50, tiempos_exc);
+% fig = figure('Name',"Excitación Recortada");
+% fig.WindowState = 'maximized' ;
+% plot(tiempos_rec_exc, datos_rec_exc)
+% title(strcat("Señal de excitación recortada del canal ", num2str(lista_canales(canal))));
+% xlabel('Tiempo (s)')
+% xlim([tiempos_rec_exc(1),tiempos_rec_exc(end)])
+% %% Sacar picos en señal de excitación (recortada)
+% fig_peaks_exc = figure('Name',"Peaks Exc");
+% fig_peaks_exc.WindowState = 'maximized' ;
+% findpeaks(datos_rec_exc, tiempos_rec_exc, 'MinPeakProminence', 0.03, 'MinPeakDistance',0.5)
+% [picos_exc,loc_peak_exc]= findpeaks(datos_rec_exc, tiempos_rec_exc, 'MinPeakProminence', 0.03, 'MinPeakDistance',0.5);
+%% Stacking de la excitación
+% Dibujar las formas de onda "stack" separando pulso positivo y negativo
+% if bipolar
+%     [datos_stack_Impar_exc, datos_stack_Par_exc] = stacking(datos_rec_exc, tiempos_rec_exc, loc_peak_exc, true);
+%     fig_stack_i = figure('Name',"Stack Impar Excitación");
+%     for i=1:size(datos_stack_Impar_exc,1)
+%         hold on;
+%         plot(datos_stack_Impar_exc(i,:))
+%     end
+%     fig_stack_p = figure('Name',"Stack Par Excitación");
+%     for i=1:size(datos_stack_Par_exc,1)
+%         hold on;
+%         plot(datos_stack_Par_exc(i,:))
+%     end
+% else
+% Dibujar las formas de onda "stack"
+    datos_stack_exc = stacking(datos_notch_exc, tiempos_exc, loc_peak_trig_exc_ok, false);
+    fig_stack_exc = figure('Name',"Stack Excitación");
+    for i=1:size(datos_stack_exc,1)
+        hold on;
+        plot(datos_stack_exc(i,:))
+        legend;
+    end    
+% end
+%% Cálculo de la media de la excitación
+avg_signal_exc = mean(datos_stack_exc);
+figure(fig_stack_exc);
+plot(avg_signal_exc, 'LineWidth',3,'DisplayName',"Media");
+std_pos_exc = avg_signal_exc + std(datos_stack_exc);
+plot(std_pos_exc, 'LineWidth',3,'DisplayName',"Std Pos");
+std_neg_exc = avg_signal_exc - std(datos_stack_exc);
+plot(std_neg_exc, 'LineWidth',3,'DisplayName',"Std Neg");
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Restar la excitación de las señales
+avg_signal = mean(datos_stack);
+resta = avg_signal - avg_signal_exc;
+figure;
+tiempos_resta = 0:1/D.Header.sample_rate:(size(resta,2)-1)*1/D.Header.sample_rate;
+plot(tiempos_resta, resta);
+fig_Resta = figure();
+% grafEspectro(resta, 1000, fig_Resta, 'Espectro de la resta');
+
+
+
+##### SOURCE END #####
+--></body></html>

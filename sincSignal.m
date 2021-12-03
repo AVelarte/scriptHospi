@@ -115,7 +115,7 @@ plot(tiempos, datos_trig, 'DisplayName','Trigger')
 title(" Señal Trigger ");
 xlabel('Tiempo (s)')
 xlim([tiempos(1),tiempos(end)])
-%% Graficar espectro de la señal medida
+%% Graficar espectro de la señal de trigger
 fig_esp_trig = figure('Name',"Espectro del trigger");
 title("Espectro frecuencial trigger");
 fig_esp_trig.WindowState = 'maximized' ;
