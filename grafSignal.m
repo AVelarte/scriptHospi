@@ -1,4 +1,4 @@
-function datos_notch = grafSignal(canal, tiempos, visSignal, visSpec)
+function datos_notch = grafSignal(canal, tiempos, visSignal, visSpec, rango)
     global D
     datos = D.Data(canal,:);
     datos = datos * 10^(-6);
@@ -16,7 +16,7 @@ function datos_notch = grafSignal(canal, tiempos, visSignal, visSpec)
         fig_esp = figure('Name',"Espectro");
         title("Espectro frecuencial");
         fig_esp.WindowState = 'maximized' ;
-        grafEspectroAlt(datos, 1000, fig_esp, 'Raw');
+        grafEspectroAlt(datos, rango, fig_esp, 'Raw');
     end
     %% FILTRO NOTCH para señal medida
     datos_notch = filter50(datos, tiempos);
@@ -30,6 +30,6 @@ function datos_notch = grafSignal(canal, tiempos, visSignal, visSpec)
     end 
     %% Graficar espectro de la señal medida tras filtro notch
     if visSpec
-        grafEspectroAlt(datos_notch, 1000, fig_esp, 'Notch');
+        grafEspectroAlt(datos_notch, rango, fig_esp, 'Notch');
     end
 end

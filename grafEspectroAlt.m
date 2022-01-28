@@ -13,12 +13,25 @@ function done = grafEspectroAlt(datos, rango, fig, label)
     P1 = P2(1:L/2+1);
     P1(2:end-1) = 2*P1(2:end-1);
     f = Fs*(0:(L/2))/L;
-    plot(f,P1, 'DisplayName',label) 
+    stem(f,P1, 'DisplayName',label) 
+    set(gca,'yscale','li')
     xlim([0,rango]);
     title('Single-Sided Amplitude Spectrum of X(t)')
     xlabel('f (Hz)')
-    ylabel('|P1(f)|')
+    ylabel('Amplitude')
     lgd = legend;
     lgd.FontSize = 14;
     hold on;
+    
+%     
+%     hz = linspace(0,Fs/2,floor(L/2)+1);
+%     pow = abs( fft(X)/L ).^2;
+%     stem(hz,pow(1:length(hz)), 'DisplayName',label) 
+%     xlim([0,rango]);
+%     title('Single-Sided Amplitude Spectrum of X(t)')
+%     xlabel('f (Hz)')
+%     ylabel('Amplitude')
+%     lgd = legend;
+%     lgd.FontSize = 14;
+%     hold on;
 end

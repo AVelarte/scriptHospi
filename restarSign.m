@@ -5,7 +5,8 @@ function done = restarSign(datosSignal, datosExc)
        subtraction = datosSignal(i,:) - datosExc;
        signal_sub = [signal_sub, subtraction];
     end
-    figure();
+    fig_rest = figure();
+    fig_rest.WindowState = 'maximized' ;
     title("Substracción");
     tiempo_sub = (0:(size(signal_sub,2)-1)) * (1/D.Header.sample_rate);
     plot(tiempo_sub, signal_sub);
